@@ -1,3 +1,9 @@
-const urls = {}
+const baseURL = process.env.REACT_APP_API
 
-export {urls}
+const urls = {
+    movies: '/discover/movie',
+    genres: '/genre/movie/list',
+    search: '/search/keyword'
+}
+
+export {urls, baseURL}
