@@ -1,35 +1,54 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
-import {IMovieDetails, IMovie, IGenre, IGenreRequest} from "../../interfaces";
+import {IMovie, IMovieDetails} from "../../interfaces";
 import {MovieService} from "../../services";
 
 interface IState {
-    page: number,
     results: IMovie[],
-    genres: string[],
-    ids: number[]
+    prevPage: boolean,
+    nextPage: boolean,
+    filter_ids: number[]
 }
 
 const initialState: IState = {
-    page: 1,
     results: [],
-    genres: [],
-    ids: []
+    prevPage: false,
+    nextPage: false,
+    filter_ids: []
 }
 
-const getAll = createAsyncThunk<IMovieDetails, void>(
+const getAll = createAsyncThunk<IMovieDetails, string>(
     'movieSlice/getAll',
-    async () => {
-        const {data} = await MovieService.getAll();
+// @ts-ignore
+    async ({page}) => {
+        const {data} = await MovieService.getAll(page);
         return data
     }
 );
 
-const getGenres = createAsyncThunk<IGenreRequest, void>(
-    'movieSlice/getGenres',
+const getById = createAsyncThunk<IMovie, number>(
+    'movieSlice/getById',
 // @ts-ignore
-    async () => {
-        const {data} = await MovieService.getGenres()
+    async (id) => {
+        const {data} = await MovieService.getById(id)
+        return data
+    }
+)
+
+const getByGenresId = createAsyncThunk<IMovieDetails, any>(
+    'movieSlice/getByGenresId',
+// @ts-ignore
+    async ({ids}) => {
+        const {data} = await MovieService.getByGenresId(ids)
+        return data
+    }
+)
+
+const getBySearchName = createAsyncThunk<IMovieDetails, any>(
+    'movieSlice/getBySearchName',
+// @ts-ignore
+    async (name) => {
+        const {data} = await MovieService.getByName(name)
         return data
     }
 )
@@ -41,27 +60,28 @@ const movieSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getAll.fulfilled, (state, action) => {
-                state.page = action.payload.page
                 state.results = action.payload.results
+                state.prevPage = action.payload.page > 1;
+                state.nextPage = action.payload.page < action.payload.total_pages;
             })
-            .addCase(getGenres.fulfilled, (state, action) => {
-                // @ts-ignore
-                const {genres} = action.payload
-                // const chossen_genre = state.ids.map(id => {
-                //     genres.filter(value => value.id = id)
-                // })
-                for (const id of state.ids) {
-                    const corect = genres.filter(genId =>genId.id === id);
-                    if (corect){
-                        // this.state.
-                    }
+            .addCase(getById.fulfilled, (state, action) => {
+            })
+            .addCase(getByGenresId.fulfilled, (state, action) => {
+                    state.results = action.payload.results
+                    console.log(action.payload.results);
+                    state.prevPage = action.payload.page > 1;
+                    state.nextPage = action.payload.page < action.payload.total_pages;
                 }
-                state.genres = chossen_genre
+            )
+            .addCase(getBySearchName.fulfilled, (state, action) => {
+                state.results = action.payload.results
+                state.prevPage = action.payload.page > 1;
+                state.nextPage = action.payload.page < action.payload.total_pages;
             })
     }
 });
 
 const {reducer: movieReducer} = movieSlice;
-const movieAction = {getAll, getGenres}
+const movieAction = {getAll, getById, getByGenresId, getBySearchName}
 
 export {movieReducer, movieAction}

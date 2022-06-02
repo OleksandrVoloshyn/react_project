@@ -9,7 +9,7 @@ interface IProps {
 
 const PosterPreview: FC<IProps> = ({movie}) => {
     const {id, title, poster_path} = movie;
-    const url = 'https://image.tmdb.org/t/p/w300' + poster_path
+    const url = 'https://image.tmdb.org/t/p/w200' + poster_path
     return (
         <div>
             <Link to={id.toString()} state={movie}>

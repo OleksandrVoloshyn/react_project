@@ -7,22 +7,24 @@ import css from './MoviesList.module.css'
 import {useSearchParams} from "react-router-dom";
 
 const MoviesList: FC = () => {
-        const {results} = useAppSelector(state => state.movieReducer);
+        const {results,prevPage,nextPage} = useAppSelector(state => state.movieReducer);
         const dispatch = useAppDispatch();
         const [query, setQuery] = useSearchParams({page: '1'});
 
         useEffect(() => {
-            dispatch(movieAction.getAll())
-        }, [dispatch])
+            const data = query.get('page')
+            // @ts-ignore
+            dispatch(movieAction.getAll({page: data}))
+        }, [dispatch, query, prevPage,nextPage])
 
-        const prevPage = () => {
+        const prev = () => {
             let queryObj = Object.fromEntries(query.entries());
             // @ts-ignore
             queryObj.page--
             setQuery(queryObj)
 
         }
-        const nextPage = () => {
+        const next = () => {
             let queryObj = Object.fromEntries(query.entries());
             // @ts-ignore
             queryObj.page++
@@ -31,11 +33,10 @@ const MoviesList: FC = () => {
         return (
             <div>
                 <div className={css.pagination}>
-                    <button onClick={prevPage}>Prev</button>
-                    <button onClick={nextPage}>Next</button>
+                    <button onClick={prev} disabled={!prevPage}>Prev</button>
+                    <button onClick={next} disabled={!nextPage}>Next</button>
                 </div>
                 <div className={css.wrap}>
-                    <div className={css.sidebar}>FooBar</div>
                     <div className={css.movies}>{results.map(movie => <MoviesListCard key={movie.id} movie={movie}/>)}</div>
                 </div>
 

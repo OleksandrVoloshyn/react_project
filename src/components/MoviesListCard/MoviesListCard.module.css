@@ -1,8 +1,9 @@
 .wrap{
     border: 1px solid greenyellow;
-    width: 300px;
+    width: 200px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 5px;
 }

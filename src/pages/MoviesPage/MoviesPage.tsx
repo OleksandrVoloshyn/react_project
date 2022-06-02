@@ -1,9 +1,12 @@
 import {FC} from "react"
-import {MoviesList} from "../../components";
+
+import {GenreBadge, MoviesList} from "../../components";
+import css from './MoviesPage.module.css'
 
 const MoviesPage: FC = () => {
     return (
-        <div>
+        <div className={css.wrap}>
+            <GenreBadge/>
             <MoviesList/>
         </div>
     );

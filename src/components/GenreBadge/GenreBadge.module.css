@@ -1,0 +1,8 @@
+.wrap{
+    padding: 15px;
+}
+.filterForm{
+    min-width: 120px;
+    border: 1px solid black;
+    text-align: center;
+}
