@@ -1,6 +1,6 @@
 import {FC, useEffect, useRef} from "react"
 
-import {useAppDispatch, useAppSelector} from "../../hooks";
+import {useAppDispatch, useAppSelector} from "../../hook";
 import {genreAction, movieAction} from "../../redux";
 import css from './GenreBadge.module.css'
 
@@ -11,7 +11,7 @@ const GenreBadge: FC = () => {
 
     useEffect(() => {
         dispatch(genreAction.getAll())
-    }, [dispatch, allGenres])
+    }, [dispatch])
 
     // @ts-ignore
     const filterMovies = (e) => {

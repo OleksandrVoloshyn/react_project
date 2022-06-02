@@ -1,42 +1,56 @@
-import {FC, useEffect} from "react"
-import {useLocation} from "react-router-dom";
+import {FC, useEffect, useState} from "react"
+import {useLocation, useParams} from "react-router-dom";
 
 import css from './MovieInfo.module.css'
 import {IMovie} from "../../interfaces";
-import {useAppDispatch, useAppSelector} from "../../hooks";
-import {genreAction} from "../../redux";
+import {useAppDispatch, useAppSelector} from "../../hook";
+import {genreAction, movieAction} from "../../redux";
 
-const MovieInfo: FC = () => {
+const MovieInfo: FC | any = () => {
     const {state} = useLocation();
-    const {currentMovieGenres} = useAppSelector(state1 => state1.genreReducer);
-    const dispatch = useAppDispatch();
+    // @ts-ignore
+    const [data, setData] = useState<IMovie>(state);
 
-    const {
-        title, overview, original_title, original_language, poster_path,
-        genre_ids, popularity, release_date, vote_count, vote_average, adult
-    } = state as IMovie
+    const {currentMovieGenres} = useAppSelector(({genreReducer}) => genreReducer);
+    const {chosenMovie} = useAppSelector(({movieReducer}) => movieReducer);
+
+    const dispatch = useAppDispatch();
+    const id = useParams();
 
     useEffect(() => {
-        dispatch(genreAction.getCurrentMovieGenres({ids: genre_ids}))
-    }, [dispatch, genre_ids])
+        if (state) {
+            // @ts-ignore
+            dispatch(genreAction.getCurrentMovieGenres({genre_ids: state.genre_ids}))
+            // @ts-ignore
+            setData(state)
+        } else if (!state && !chosenMovie) {
+            // @ts-ignore
+            dispatch(movieAction.getById(id));
+        }
+        if (chosenMovie) {
+            setData(chosenMovie)
+        }
+    }, [dispatch, state, chosenMovie, id])
 
 
     return (
-        <div className={css.wrap}>
-            <img src={'https://image.tmdb.org/t/p/w500/' + poster_path} alt={title}/>
-            <div>
-                <div>title: {title}</div>
-                <div>overview: {overview}</div>
-                <div>genre_ids: {`${currentMovieGenres}`}</div>
-                <div>original_title: {original_title}</div>
-                <div>original_language: {original_language}</div>
-                <div>popularity: {popularity}</div>
-                <div>release_date: {release_date}</div>
-                <div>vote_count: {vote_count}</div>
-                <div>adult: {adult.toString()}</div>
-                <div>vote_average: {vote_average}</div>
+        !data ? 'Loading...'
+            : <div className={css.wrap}>
+                <img src={'https://image.tmdb.org/t/p/w500/' + data.poster_path} alt={data.title}/>
+                <div>
+                    <div>title: {data.title}</div>
+                    <div>overview: {data.overview}</div>
+                    {/*@ts-ignore*/}
+                    <div>genres: {data.genres ? `${data.genres}` : `${currentMovieGenres}`}</div>
+                    <div>original_title: {data.original_title}</div>
+                    <div>original_language: {data.original_language}</div>
+                    <div>popularity: {data.popularity}</div>
+                    <div>release_date: {data.release_date}</div>
+                    <div>vote_count: {data.vote_count}</div>
+                    <div>adult: {data.adult.toString()}</div>
+                    <div>vote_average: {data.vote_average}</div>
+                </div>
             </div>
-        </div>
     );
 };
 

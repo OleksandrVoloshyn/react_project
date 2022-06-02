@@ -3,25 +3,29 @@ import StarRatings from 'react-star-ratings';
 
 import {PosterPreview} from "../PosterPreview/PosterPreview";
 import css from './MoviesListCard.module.css'
+import {IMovie} from "../../interfaces";
 
 interface IProps {
-    movie: any
+    movie: IMovie
 }
 
 const MoviesListCard: FC<IProps> = ({movie}) => {
+    const {title, vote_average} = movie
     return (
         <div className={css.wrap}>
             <PosterPreview movie={movie}/>
-            {movie.title}
+            <span>{title}</span>
+
             <StarRatings
-                rating={movie.vote_average}
+                rating={vote_average}
                 starRatedColor="blue"
                 numberOfStars={10}
                 name='rating'
                 starDimension={'10px'}
-                starSpacing={'3px'}
+                starSpacing={'4px'}
             />
-            {movie.vote_average}
+
+            <span>{vote_average}</span>
         </div>
     );
 };

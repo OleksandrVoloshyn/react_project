@@ -1,11 +1,9 @@
-.movies{
+.movies {
     display: flex;
     flex-wrap: wrap;
 }
-.wrap{
-    display: flex;
-}
-.pagination{
+
+.pagination {
     display: flex;
     justify-content: center;
 }

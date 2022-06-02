@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IGenre, IGenreResponse} from "../../interfaces";
 import {genreService} from "../../services";
 
@@ -24,10 +24,11 @@ const genreSlice = createSlice({
     name: 'genreSlice',
     initialState,
     reducers: {
-        getCurrentMovieGenres: (state, action) => {
+        getCurrentMovieGenres: (state, action): void => {
             state.currentMovieGenres = []
-            const ids = action.payload.ids;
-            for (const id of ids) {
+            const {genre_ids} = action.payload;
+
+            for (const id of genre_ids) {
                 for (const genre of state.allGenres) {
                     if (genre.id === id) {
                         state.currentMovieGenres.push(genre.name)
