@@ -1,13 +1,14 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
-import {IMovie, IMovieDetails} from "../../interfaces";
+import {IGenre, IMovie, IMovieResponse} from "../../interfaces";
 import {MovieService} from "../../services";
+import {IMovieDetails} from "../../interfaces/movie-details.interface";
 
 interface IState {
     results: IMovie[],
     prevPage: boolean,
     nextPage: boolean,
-    chosenMovie: IMovie | null
+    chosenMovie: IMovieDetails | null
 }
 
 const initialState: IState = {
@@ -17,7 +18,7 @@ const initialState: IState = {
     chosenMovie: null
 }
 
-const getMovies = createAsyncThunk<IMovieDetails, string>(
+const getMovies = createAsyncThunk<IMovieResponse, string>(
     'movieSlice/getAll',
     async (page) => {
         const {data} = await MovieService.getMovies(page);
@@ -25,7 +26,7 @@ const getMovies = createAsyncThunk<IMovieDetails, string>(
     }
 );
 
-const getById = createAsyncThunk<IMovie, { id: string }>(
+const getById = createAsyncThunk<IMovieDetails, any>(
     'movieSlice/getById',
     async ({id}) => {
         const {data} = await MovieService.getById(id)
@@ -33,7 +34,7 @@ const getById = createAsyncThunk<IMovie, { id: string }>(
     }
 )
 
-const getByGenresId = createAsyncThunk<IMovieDetails, { ids: number[] }>(
+const getByGenresId = createAsyncThunk<IMovieResponse, { ids: number[] }>(
     'movieSlice/getByGenresId',
     async ({ids}) => {
         const {data} = await MovieService.getByGenresId(ids)
@@ -41,7 +42,7 @@ const getByGenresId = createAsyncThunk<IMovieDetails, { ids: number[] }>(
     }
 )
 
-const getBySearchName = createAsyncThunk<IMovieDetails, { name: string }>(
+const getBySearchName = createAsyncThunk<IGenre[], any>(
     'movieSlice/getBySearchName',
     async ({name}) => {
         const {data} = await MovieService.getByName(name)
@@ -57,19 +58,18 @@ const movieSlice = createSlice({
         builder
             .addCase(getMovies.fulfilled, (state, action) => {
                 const {results, page, total_pages} = action.payload
+
                 state.results = results
                 state.prevPage = page > 1;
                 state.nextPage = page < total_pages;
             })
             .addCase(getById.fulfilled, (state, action) => {
+                let genre_names: string[] = []
                 const {genres} = action.payload
-                const res: string[] = []
-                if (genres) {
-                    for (const genre of genres) {
-                        res.push(genre['name'])
-                    }
-                }
-                action.payload.genres = res
+
+                genres.forEach(genre => genre_names.push(genre['name']))
+                action.payload.genres_name = genre_names.toString()
+
                 state.chosenMovie = action.payload
             })
             .addCase(getByGenresId.fulfilled, (state, action) => {
@@ -79,9 +79,9 @@ const movieSlice = createSlice({
                 }
             )
             .addCase(getBySearchName.fulfilled, (state, action) => {
-                state.results = action.payload.results
-                state.prevPage = action.payload.page > 1;
-                state.nextPage = action.payload.page < action.payload.total_pages;
+                // state.results = action.payload.results
+                // state.prevPage = action.payload.page > 1;
+                // state.nextPage = action.payload.page < action.payload.total_pages;
             })
     }
 });

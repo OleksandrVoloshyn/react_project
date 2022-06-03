@@ -5,7 +5,7 @@ import {genreAction, movieAction} from "../../redux";
 import css from './GenreBadge.module.css'
 
 const GenreBadge: FC = () => {
-    const {allGenres} = useAppSelector(state => state.genreReducer);
+    const {allGenres} = useAppSelector(({genreReducer}) => genreReducer);
     const dispatch = useAppDispatch();
     const ids = useRef(null);
 
@@ -20,17 +20,15 @@ const GenreBadge: FC = () => {
         const data = []
         // @ts-ignore
         for (const xxx of ids.current) {
-            if(xxx.checked){
+            if (xxx.checked) {
                 data.push(+xxx.name)
             }
         }
         // @ts-ignore
-        dispatch(movieAction.getByGenresId({ids:data}))
+        dispatch(movieAction.getByGenresId({ids: data}))
     }
     return (
         <div className={css.wrap}>
-            <span>Genres List:</span>
-            <hr/>
             <form className={css.filterForm} ref={ids}>
                 {allGenres.map(genre =>
                     <div key={genre.id}><label>{genre.name}
