@@ -8,19 +8,20 @@ interface IState {
     results: IMovie[],
     prevPage: boolean,
     nextPage: boolean,
-    chosenMovie: IMovieDetails | null
+    chosenMovie: IMovieDetails | null,
 }
 
 const initialState: IState = {
     results: [],
     prevPage: false,
     nextPage: false,
-    chosenMovie: null
+    chosenMovie: null,
 }
 
 const getMovies = createAsyncThunk<IMovieResponse, string>(
     'movieSlice/getAll',
     async (page) => {
+        // @ts-ignore
         const {data} = await MovieService.getMovies(page);
         return data
     }
@@ -42,7 +43,7 @@ const getByGenresId = createAsyncThunk<IMovieResponse, { ids: number[] }>(
     }
 )
 
-const getBySearchName = createAsyncThunk<IGenre[], any>(
+const getBySearchName = createAsyncThunk<any, any>(
     'movieSlice/getBySearchName',
     async ({name}) => {
         const {data} = await MovieService.getByName(name)
@@ -79,9 +80,11 @@ const movieSlice = createSlice({
                 }
             )
             .addCase(getBySearchName.fulfilled, (state, action) => {
-                // state.results = action.payload.results
-                // state.prevPage = action.payload.page > 1;
-                // state.nextPage = action.payload.page < action.payload.total_pages;
+                const {results, page, total_pages} = action.payload
+
+                state.results = results
+                state.prevPage = page > 1;
+                state.nextPage = page < total_pages;
             })
     }
 });

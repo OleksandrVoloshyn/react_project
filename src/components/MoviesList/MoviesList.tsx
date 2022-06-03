@@ -31,11 +31,14 @@ const MoviesList: FC = () => {
 
         return (
             <div>
-                <div className={css.pagination}>
-                    <button onClick={prevBtn} disabled={!prevPage}>Prev</button>
-                    <button onClick={nextBtn} disabled={!nextPage}>Next</button>
+                <div>
+                    <div className={css.pagination}>
+                        <button onClick={prevBtn} disabled={!prevPage}>Prev</button>
+                        <button onClick={nextBtn} disabled={!nextPage}>Next</button>
+                    </div>
+                    <div className={css.movies}>{results.map(movie => <MoviesListCard key={movie.id}
+                                                                                      movie={movie}/>)}</div>
                 </div>
-                <div className={css.movies}>{results.map(movie => <MoviesListCard key={movie.id} movie={movie}/>)}</div>
             </div>
         );
     }

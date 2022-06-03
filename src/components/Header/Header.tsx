@@ -9,12 +9,11 @@ import {Link} from "react-router-dom";
 const Header: FC = () => {
     const search_name = useRef(null);
     const dispatch = useDispatch();
-
     // @ts-ignore
     const searchByName = (e): void => {
         e.preventDefault()
         // @ts-ignore
-        dispatch(movieAction.getBySearchName(search_name.current.value))
+        dispatch(movieAction.getBySearchName({name: search_name.current.value}))
         //    todo render new component only with names
     }
     return (
