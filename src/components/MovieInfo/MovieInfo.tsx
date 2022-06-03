@@ -4,23 +4,24 @@ import {useParams} from "react-router-dom";
 import css from './MovieInfo.module.css'
 import {useAppDispatch, useAppSelector} from "../../hook";
 import {movieAction} from "../../redux";
+import {urls} from "../../constants";
 
 const MovieInfo: FC | any = () => {
     const {chosenMovie} = useAppSelector(({movieReducer}) => movieReducer);
     const dispatch = useAppDispatch();
-    const id = useParams();
+    const {id} = useParams();
 
     useEffect(() => {
         if (id) {
-            dispatch(movieAction.getById(id))
+            dispatch(movieAction.getById({id}))
         }
-    }, [dispatch, id, chosenMovie])
+    }, [dispatch, id])
 
     return (
         <div>
             {chosenMovie &&
                 <div className={css.wrap}>
-                    <img src={'https://image.tmdb.org/t/p/w500/' + chosenMovie.poster_path} alt={chosenMovie.title}/>
+                    <img src={urls.img500 + chosenMovie.poster_path} alt={chosenMovie.title}/>
                     <div>
                         <div>adult: {chosenMovie.adult.toString()}</div>
                         <div>budget: {chosenMovie.budget}</div>

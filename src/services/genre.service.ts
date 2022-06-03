@@ -4,7 +4,7 @@ import {IGenreResponse,} from "../interfaces";
 import {urls} from "../constants";
 
 const genreService = {
-    getAllGenres: (): Res<IGenreResponse> => axiosService.get(urls.genres)
+    getAll: (): Res<IGenreResponse> => axiosService.get(urls.genres)
 }
 
 export {genreService}

@@ -1,4 +1,4 @@
-import {FC, useRef} from "react"
+import React, {FC, useRef} from "react"
 
 import css from './Header.module.css'
 import {UserInfo} from "../UserInfo/UserInfo";
@@ -7,10 +7,10 @@ import {movieAction} from "../../redux";
 import {Link} from "react-router-dom";
 
 const Header: FC = () => {
-    const search_name = useRef(null);
+    let search_name = useRef(null);
     const dispatch = useDispatch();
-    // @ts-ignore
-    const searchByName = (e): void => {
+
+    const searchByName = (e: React.SyntheticEvent): void => {
         e.preventDefault()
         // @ts-ignore
         dispatch(movieAction.getBySearchName({name: search_name.current.value}))
@@ -21,7 +21,7 @@ const Header: FC = () => {
             <div><Link to={'/'}>Movie DB</Link></div>
             <div>
                 <input type="text" placeholder="movie's name" ref={search_name}/>
-                <button onClick={searchByName}>Find</button>
+                <button onClick={searchByName}><Link to={'search/keyword'}>Find</Link></button>
             </div>
             <UserInfo/>
         </div>

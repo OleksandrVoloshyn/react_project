@@ -1,51 +1,46 @@
-import {FC, useEffect, useRef} from "react"
+import React, {FC, useEffect, useRef} from "react"
 
 import {useAppDispatch, useAppSelector} from "../../hook";
-import {genreAction, movieAction} from "../../redux";
+import {genreAction} from "../../redux";
 import css from './GenreBadge.module.css'
 import {useSearchParams} from "react-router-dom";
 
 const GenreBadge: FC = () => {
     const {allGenres} = useAppSelector(({genreReducer}) => genreReducer);
     const dispatch = useAppDispatch();
-    const ids = useRef(null);
-    const [query, setQuery] = useSearchParams();
+    const [query, setQuery] = useSearchParams({page: '1', with_genres: ''});
+    const filterForm = useRef(null);
 
     useEffect(() => {
         dispatch(genreAction.getAll())
     }, [dispatch])
 
-    // @ts-ignore
-    const filterMovies = (e) => {
+    const filterMovies = (e: React.SyntheticEvent): void => {
         e.preventDefault()
-        // @ts-ignore
         const data = []
-        // @ts-ignore
-        for (const xxx of ids.current) {
-            if (xxx.checked) {
-                data.push(xxx.name)
+        if (filterForm.current) {
+            // @ts-ignore
+            for (const el of filterForm.current) {
+                //todo костиль
+                if (el.checked) {
+                    data.push(el.name)
+                }
             }
         }
         let queryObj = Object.fromEntries(query.entries());
-        queryObj.with_genres = data.toString()
-        console.log(data.toString());
-        console.log(typeof data.toString());
-        // @ts-ignore
+        queryObj.with_genres = data.join(',')
+        //todo multi filter bad
         setQuery(queryObj)
-        dispatch(movieAction.getByGenresId({ids: data}))
     }
     return (
-        <div className={css.wrap}>
-            <form className={css.filterForm} ref={ids}>
-                {allGenres.map(genre =>
-                    <div key={genre.id}>
-                        <label>{genre.name}
-                            <input type={"checkbox"} name={genre.id.toString()}/>
-                        </label>
-                    </div>)}
-                <button onClick={filterMovies}>Filter</button>
-            </form>
-        </div>
+        <form className={css.filterForm} ref={filterForm}>
+            {allGenres.map(genre => <div key={genre.id}>
+                <label>{genre.name}
+                    <input type={"checkbox"} name={genre.id.toString()}/>
+                </label>
+            </div>)}
+            <button onClick={filterMovies}>Filter</button>
+        </form>
     );
 };
 

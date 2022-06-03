@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {IGenre, IGenreResponse} from "../../interfaces";
 import {genreService} from "../../services";
 
@@ -15,7 +15,7 @@ const initialState: IState = {
 const getAll = createAsyncThunk<IGenreResponse, void>(
     'genreSlice/getAll',
     async () => {
-        const {data} = await genreService.getAllGenres()
+        const {data} = await genreService.getAll()
         return data
     }
 )
@@ -24,10 +24,11 @@ const genreSlice = createSlice({
     name: 'genreSlice',
     initialState,
     reducers: {
+        //todo type script PayloadAction
         getCurrentMovieGenres: (state, action): void => {
             state.currentMovieGenres = []
             const {genre_ids} = action.payload;
-
+            // todo if i don't need to use it, remove
             for (const id of genre_ids) {
                 for (const genre of state.allGenres) {
                     if (genre.id === id) {
@@ -35,6 +36,7 @@ const genreSlice = createSlice({
                     }
                 }
             }
+
         }
     },
     extraReducers: (builder) => {

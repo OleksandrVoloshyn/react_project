@@ -12,12 +12,14 @@ const MoviesList: FC = () => {
         const [query, setQuery] = useSearchParams({page: '1'});
         let queryObj = Object.fromEntries(query.entries());
 
-
         useEffect(() => {
-            if (queryObj.page) {
+            if (queryObj.with_genres) {
+                dispatch(movieAction.getByGenresId({ids: queryObj.with_genres, page: queryObj.page}))
+            } else {
                 dispatch(movieAction.getMovies(queryObj.page))
             }
-        }, [dispatch, queryObj.page])
+            //    todo Якщо в масив залежностей передавати queryObj зациклювання
+        }, [dispatch, queryObj.page, queryObj.with_genres])
 
         const prevBtn = (): void => {
             queryObj.page = (+queryObj.page - 1).toString()
@@ -31,14 +33,14 @@ const MoviesList: FC = () => {
 
         return (
             <div>
-                <div>
-                    <div className={css.pagination}>
-                        <button onClick={prevBtn} disabled={!prevPage}>Prev</button>
-                        <button onClick={nextBtn} disabled={!nextPage}>Next</button>
-                    </div>
-                    <div className={css.movies}>{results.map(movie => <MoviesListCard key={movie.id}
-                                                                                      movie={movie}/>)}</div>
+                {/*<div>*/}
+                <div className={css.pagination}>
+                    <button onClick={prevBtn} disabled={!prevPage}>Prev</button>
+                    <button onClick={nextBtn} disabled={!nextPage}>Next</button>
                 </div>
+                <div className={css.movies}>{results.map(movie => <MoviesListCard key={movie.id}
+                                                                                  movie={movie}/>)}</div>
+                {/*</div>*/}
             </div>
         );
     }

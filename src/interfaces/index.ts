@@ -1,4 +1,6 @@
 export * from './movie.interface'
+export * from './movie-details.interface'
 export * from './movies-response.interface'
 export * from './genre.interface'
 export * from './genres-response.interface'
+export * from './simple-data.interface'

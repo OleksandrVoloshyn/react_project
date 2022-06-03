@@ -1,20 +1,18 @@
 import {axiosService, Res} from "./axios.service";
 
-import {IGenre, IMovieResponse} from "../interfaces";
+import {IMovieDetails, IMovieResponse} from "../interfaces";
 import {urls} from "../constants";
-import {IMovieDetails} from "../interfaces/movie-details.interface";
 
 const MovieService = {
-    getMovies: (page: string, with_genres: string): Res<IMovieResponse> => axiosService.get(urls.movies, {
+    getMovies: (page: string): Res<IMovieResponse> => axiosService.get(urls.movies, {params: {page}}),
+    getById: (id: string): Res<IMovieDetails> => axiosService.get(urls.movie + '/' + id),
+    getByGenresId: (with_genres: string, page: string = '1'): Res<IMovieResponse> => axiosService.get(urls.movies, {
         params: {
-            page,
-            with_genres
+            with_genres,
+            page
         }
     }),
-    getById: (id: string): Res<IMovieDetails> => axiosService.get(urls.movie + '/' + id),
-
-    getByGenresId: (ids: number[]): Res<IMovieResponse> => axiosService.get(urls.movies + `?with_genres=${ids}`),
-    getByName: (name: string): Res<any[]> => axiosService.get(urls.search + `?query=${name}`)
+    getByName: (name: string, page: string): Res<any[]> => axiosService.get(urls.search, {params: {query: name, page}})
 }
 
 export {MovieService}

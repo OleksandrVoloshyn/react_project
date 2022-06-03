@@ -5,6 +5,7 @@ const urls = {
     movie: '/movie',
     genres: '/genre/movie/list',
     search: '/search/keyword',
+    img500: 'https://image.tmdb.org/t/p/w500/'
 }
 
 export {urls, baseURL}
