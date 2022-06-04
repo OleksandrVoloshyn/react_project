@@ -1,9 +1,9 @@
 import React, {FC, useEffect, useRef} from "react"
+import {useSearchParams} from "react-router-dom";
 
 import {useAppDispatch, useAppSelector} from "../../hook";
 import {genreAction} from "../../redux";
 import css from './GenreBadge.module.css'
-import {useSearchParams} from "react-router-dom";
 
 const GenreBadge: FC = () => {
     const {allGenres} = useAppSelector(({genreReducer}) => genreReducer);
@@ -17,19 +17,19 @@ const GenreBadge: FC = () => {
 
     const filterMovies = (e: React.SyntheticEvent): void => {
         e.preventDefault()
+        let queryObj = Object.fromEntries(query.entries());
         const data = []
+
         if (filterForm.current) {
             // @ts-ignore
             for (const el of filterForm.current) {
-                //todo костиль
                 if (el.checked) {
                     data.push(el.name)
                 }
             }
         }
-        let queryObj = Object.fromEntries(query.entries());
+
         queryObj.with_genres = data.join(',')
-        //todo multi filter bad
         setQuery(queryObj)
     }
     return (

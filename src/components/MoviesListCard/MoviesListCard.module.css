@@ -1,9 +1,14 @@
 .wrap{
-    border: 1px solid greenyellow;
-    width: 200px;
+    border: 1px solid blue;
+    width: 250px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 5px;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 20%;
+}
+.title{
+    text-align: center;
 }

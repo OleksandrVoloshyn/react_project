@@ -7,16 +7,16 @@ interface IState {
     results: IMovie[],
     prevPage: boolean,
     nextPage: boolean,
-    chosenMovie: IMovieDetails | null,
-    searchResult: INameId[] | null
+    chosenMovie?: IMovieDetails,
+    searchResult?: INameId[]
 }
 
 const initialState: IState = {
     results: [],
     prevPage: false,
     nextPage: false,
-    chosenMovie: null,
-    searchResult: null
+    chosenMovie: undefined,
+    searchResult: undefined
 }
 
 const getMovies = createAsyncThunk<IMovieResponse, string>(
@@ -43,6 +43,7 @@ const getByGenresId = createAsyncThunk<IMovieResponse, { ids: string, page: stri
     }
 )
 
+//todo типізація
 const getBySearchName = createAsyncThunk<any, { name: string, page: string }>(
     'movieSlice/getBySearchName',
     async ({name, page}) => {
@@ -59,7 +60,6 @@ const movieSlice = createSlice({
         builder
             .addCase(getMovies.fulfilled, (state, action) => {
                 const {results, page, total_pages} = action.payload
-
                 state.results = results
                 state.prevPage = page > 1;
                 state.nextPage = page < total_pages;
@@ -70,19 +70,16 @@ const movieSlice = createSlice({
 
                 genres.forEach(genre => genre_names.push(genre['name']))
                 action.payload.genres_name = genre_names.toString()
-
                 state.chosenMovie = action.payload
             })
             .addCase(getByGenresId.fulfilled, (state, action) => {
                 const {results, page, total_pages} = action.payload
-
                 state.results = results
                 state.prevPage = page > 1;
                 state.nextPage = page < total_pages;
             })
             .addCase(getBySearchName.fulfilled, (state, action) => {
                 const {results, page, total_pages} = action.payload
-
                 state.searchResult = results
                 state.prevPage = page > 1;
                 state.nextPage = page < total_pages;

@@ -10,3 +10,14 @@
     color: white;
     font-size: 25px;
 }
+.find_btn{
+    text-decoration: none;
+    color: black;
+}
+.home{
+    text-decoration: none;
+    color: gold;
+}
+.home:hover{
+    color: red;
+}

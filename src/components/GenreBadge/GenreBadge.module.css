@@ -1,6 +1,6 @@
 .filterForm {
     padding: 15px;
     min-width: 120px;
-    border: 1px solid black;
+    border-right: 2px solid cornflowerblue;
     text-align: center;
 }

@@ -1,0 +1,12 @@
+.wrap {
+    text-align: center;
+}
+
+.name {
+    text-decoration: none;
+    color: black;
+}
+
+.name:hover {
+    color: red;
+}

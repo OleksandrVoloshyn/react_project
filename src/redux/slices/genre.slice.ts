@@ -4,12 +4,10 @@ import {genreService} from "../../services";
 
 interface IState {
     allGenres: IGenre[],
-    currentMovieGenres: string[]
 }
 
 const initialState: IState = {
     allGenres: [],
-    currentMovieGenres: []
 }
 
 const getAll = createAsyncThunk<IGenreResponse, void>(
@@ -23,22 +21,7 @@ const getAll = createAsyncThunk<IGenreResponse, void>(
 const genreSlice = createSlice({
     name: 'genreSlice',
     initialState,
-    reducers: {
-        //todo type script PayloadAction
-        getCurrentMovieGenres: (state, action): void => {
-            state.currentMovieGenres = []
-            const {genre_ids} = action.payload;
-            // todo if i don't need to use it, remove
-            for (const id of genre_ids) {
-                for (const genre of state.allGenres) {
-                    if (genre.id === id) {
-                        state.currentMovieGenres.push(genre.name)
-                    }
-                }
-            }
-
-        }
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(getAll.fulfilled, (state, action) => {
@@ -47,7 +30,7 @@ const genreSlice = createSlice({
     }
 });
 
-const {reducer: genreReducer, actions: {getCurrentMovieGenres}} = genreSlice;
-const genreAction = {getAll, getCurrentMovieGenres}
+const {reducer: genreReducer} = genreSlice;
+const genreAction = {getAll}
 
 export {genreReducer, genreAction}
