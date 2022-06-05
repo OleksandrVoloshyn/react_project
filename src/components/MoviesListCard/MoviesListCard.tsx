@@ -1,11 +1,9 @@
-import {FC, useEffect} from "react"
+import {FC} from "react"
 import StarRatings from 'react-star-ratings';
 
 import {PosterPreview} from "../PosterPreview/PosterPreview";
 import css from './MoviesListCard.module.css'
 import {IMovie} from "../../interfaces";
-import {useAppDispatch, useAppSelector} from "../../hook";
-import {genreAction} from "../../redux";
 
 interface IProps {
     movie: IMovie

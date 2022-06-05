@@ -2,12 +2,12 @@ import {FC} from "react";
 import {Outlet} from "react-router-dom";
 
 import {Header} from "../../components";
-import './MainLayout.module.css'
+import css from './MainLayout.module.css'
 
 const MainLayout: FC = () => {
 
     return (
-        <div>
+        <div className={css.wrap}>
             <Header/>
             <Outlet/>
         </div>

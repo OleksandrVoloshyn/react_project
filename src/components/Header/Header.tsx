@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import css from './Header.module.css'
 import {UserInfo} from "../UserInfo/UserInfo";
 import {urls} from "../../constants";
+import {SwitchTheme} from "../SwitchTheme/SwitchTheme";
 
 const Header: FC = () => {
     const [name, setName] = useState<string>('');
@@ -18,7 +19,10 @@ const Header: FC = () => {
                     <Link to={`${urls.search}?search=${name}`} className={css.find_btn}>Find</Link>
                 </button>
             </div>
-            <UserInfo/>
+            <div className={css.header_right}>
+                <SwitchTheme/>
+                <UserInfo/>
+            </div>
         </div>
     );
 };

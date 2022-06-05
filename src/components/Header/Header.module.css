@@ -5,19 +5,28 @@
     background-color: cornflowerblue;
     height: 60px;
 }
+
 .header > div {
     padding: 0 20px;
     color: white;
     font-size: 25px;
 }
-.find_btn{
+
+.find_btn {
     text-decoration: none;
     color: black;
 }
-.home{
+
+.home {
     text-decoration: none;
     color: gold;
 }
-.home:hover{
+
+.home:hover {
     color: red;
+}
+
+.header_right {
+    display: flex;
+    align-items: center;
 }
