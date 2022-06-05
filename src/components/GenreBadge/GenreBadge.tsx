@@ -1,46 +1,40 @@
-import React, {FC, useEffect, useRef} from "react"
+import React, {FC, useEffect} from "react"
 import {useSearchParams} from "react-router-dom";
 
 import {useAppDispatch, useAppSelector} from "../../hook";
 import {genreAction} from "../../redux";
 import css from './GenreBadge.module.css'
+import {useForm} from "react-hook-form";
+
 
 const GenreBadge: FC = () => {
     const {allGenres} = useAppSelector(({genreReducer}) => genreReducer);
     const dispatch = useAppDispatch();
     const [query, setQuery] = useSearchParams({page: '1', with_genres: ''});
-    const filterForm = useRef(null);
+    const {register, handleSubmit} = useForm();
 
     useEffect(() => {
         dispatch(genreAction.getAll())
     }, [dispatch])
 
-    const filterMovies = (e: React.SyntheticEvent): void => {
-        e.preventDefault()
+    const submit = (genresArray: any): void => {
         let queryObj = Object.fromEntries(query.entries());
-        const data = []
-
-        if (filterForm.current) {
-            // @ts-ignore
-            for (const el of filterForm.current) {
-                if (el.checked) {
-                    data.push(el.name)
-                }
-            }
-        }
-
-        queryObj.with_genres = data.join(',')
+        queryObj.with_genres = genresArray.genresArray.toString()
         setQuery(queryObj)
     }
+
     return (
-        <form className={css.filterForm} ref={filterForm}>
-            {allGenres.map(genre => <div key={genre.id}>
-                <label>{genre.name}
-                    <input type={"checkbox"} name={genre.id.toString()}/>
-                </label>
-            </div>)}
-            <button onClick={filterMovies}>Filter</button>
-        </form>
+        <div>
+            <form onSubmit={handleSubmit(submit)} className={css.filterForm}>
+                {allGenres.map(genre => <div key={genre.id}>
+                    <label>{genre.name}
+                        <input type={"checkbox"} {...register('genresArray')} value={genre.id}/>
+                    </label>
+                </div>)}
+                <button>Filter</button>
+            </form>
+        </div>
+
     );
 };
 

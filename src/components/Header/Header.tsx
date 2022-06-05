@@ -6,6 +6,7 @@ import {UserInfo} from "../UserInfo/UserInfo";
 
 const Header: FC = () => {
     const [name, setName] = useState<string>('');
+
     return (
         <div className={css.header}>
             <div><Link to={'/'} className={css.home}>Movie DB</Link></div>
