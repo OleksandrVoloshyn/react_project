@@ -10,6 +10,7 @@ const SearchPage: FC = () => {
     const {searchResult, prevPage, nextPage} = useAppSelector(({movieReducer}) => movieReducer);
     const [query, setQuery] = useSearchParams({page: '1', search: ''});
     let queryObj = Object.fromEntries(query.entries());
+    console.log(searchResult)
 
     useEffect(() => {
         dispatch(movieAction.getBySearchName({name: queryObj.search, page: queryObj.page}))
@@ -33,7 +34,7 @@ const SearchPage: FC = () => {
                 <div>No Results</div>}
 
             {searchResult?.map(movie => <div key={movie.id}>
-                <Link to={`/movies/${movie.id}`} className={css.name}>Name: {movie.name}</Link></div>)}
+                <Link to={`/movies/${movie.id}`} className={css.name}>Name: {movie.title}</Link></div>)}
         </div>
     );
 };

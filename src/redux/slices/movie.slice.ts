@@ -8,7 +8,7 @@ interface IState {
     prevPage: boolean,
     nextPage: boolean,
     chosenMovie?: IMovieDetails,
-    searchResult?: INameId[]
+    searchResult?: IMovie[]
 }
 
 const initialState: IState = {
@@ -43,7 +43,6 @@ const getByGenresId = createAsyncThunk<IMovieResponse, { ids: string, page: stri
     }
 )
 
-//todo типізація
 const getBySearchName = createAsyncThunk<any, { name: string, page: string }>(
     'movieSlice/getBySearchName',
     async ({name, page}) => {
@@ -80,7 +79,7 @@ const movieSlice = createSlice({
             })
             .addCase(getBySearchName.fulfilled, (state, action) => {
                 const {results, page, total_pages} = action.payload
-                state.searchResult = results
+                state.results = results
                 state.prevPage = page > 1;
                 state.nextPage = page < total_pages;
             })

@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 
 import css from './Header.module.css'
 import {UserInfo} from "../UserInfo/UserInfo";
+import {urls} from "../../constants";
 
 const Header: FC = () => {
     const [name, setName] = useState<string>('');
@@ -14,7 +15,7 @@ const Header: FC = () => {
                 <input type="text" placeholder="movie's name"
                        onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}/>
                 <button>
-                    <Link to={`search/keyword?search=${name}`} className={css.find_btn}>Find</Link>
+                    <Link to={`${urls.search}?search=${name}`} className={css.find_btn}>Find</Link>
                 </button>
             </div>
             <UserInfo/>

@@ -14,12 +14,15 @@ const MoviesList: FC = () => {
 
         useEffect(() => {
             if (queryObj.with_genres) {
+                console.log('with_genres')
                 dispatch(movieAction.getByGenresId({ids: queryObj.with_genres, page: queryObj.page}))
+            } else if (queryObj.search) {
+                console.log('search')
+                dispatch(movieAction.getBySearchName({name: queryObj.search, page: queryObj.page}))
             } else {
                 dispatch(movieAction.getMovies(queryObj.page))
             }
-            //    todo Якщо в масив залежностей передавати queryObj зациклювання
-        }, [dispatch, queryObj.page, queryObj.with_genres])
+        }, [dispatch, queryObj.page, queryObj.with_genres, queryObj.search])
 
         const prevBtn = (): void => {
             queryObj.page = (+queryObj.page - 1).toString()

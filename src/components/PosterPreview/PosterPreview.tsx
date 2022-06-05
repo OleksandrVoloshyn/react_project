@@ -11,10 +11,11 @@ interface IProps {
 const PosterPreview: FC<IProps> = ({movie}) => {
     const {id, title, poster_path} = movie;
     const posterUrl = urls.img200 + poster_path
-
+    const linkTo = `/movies/${id.toString()}`
     return (
         <div>
-            <Link to={id.toString()} state={movie}>
+            {/*<Link to={id.toString()} state={movie}>*/}
+            <Link to={linkTo} state={movie}>
                 <img src={posterUrl} alt={title}/>
             </Link>
         </div>
