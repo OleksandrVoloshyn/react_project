@@ -4,7 +4,7 @@ import {useParams} from "react-router-dom";
 import css from './MovieInfo.module.css'
 import {useAppDispatch, useAppSelector} from "../../hook";
 import {movieAction} from "../../redux";
-import {urls} from "../../constants";
+import {img500} from "../../constants";
 
 const MovieInfo: FC | any = () => {
     const {chosenMovie} = useAppSelector(({movieReducer}) => movieReducer);
@@ -21,7 +21,7 @@ const MovieInfo: FC | any = () => {
         <div>
             {chosenMovie &&
                 <div className={css.wrap}>
-                    <img src={urls.img500 + chosenMovie.poster_path} alt={chosenMovie.title}/>
+                    <img src={img500 + chosenMovie.poster_path} alt={chosenMovie.title}/>
                     <div>
                         <div>adult: {chosenMovie.adult.toString()}</div>
                         <div>budget: {chosenMovie.budget}</div>

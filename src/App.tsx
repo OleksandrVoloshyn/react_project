@@ -3,7 +3,6 @@ import {Navigate, Route, Routes} from "react-router-dom";
 
 import {MainLayout} from "./layouts";
 import {MoviesInfoPage, MoviesPage, NotFoundPage} from "./pages";
-import {SearchPage} from "./pages/SearchPage/SearchPage";
 import {MoviesList} from "./components";
 
 const App: FC = () => {
