@@ -29,7 +29,7 @@ export interface IMovieDetails {
     },
     budget: number,
     genres: IGenre[],
-    genres_name?: any,
+    genres_name?: string,
     homepage: string,
     id: number,
     imdb_id: string,

@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
-import {IMovie, IMovieDetails, IMovieResponse} from "../../interfaces";
+import {IMovie, IMovieDetails, IMovieQueryParams, IMovieResponse} from "../../interfaces";
 import {MovieService} from "../../services";
 
 interface IState {
@@ -17,15 +17,14 @@ const initialState: IState = {
     chosenMovie: undefined,
 }
 
-//todo TS
-const getAllOrByGenre = createAsyncThunk<IMovieResponse, any>(
-    'movieSlice/getAllOrByGenre',
-    async (arr) => {
-        if (arr.search) {
-            const {data} = await MovieService.getByName(arr.search, arr.page)
+const getMovies = createAsyncThunk<IMovieResponse, Partial<IMovieQueryParams>>(
+    'movieSlice/getMovies',
+    async (QueryParamsObj) => {
+        if (QueryParamsObj.query) {
+            const {data} = await MovieService.getByName(QueryParamsObj)
             return data
         }
-        const {data} = await MovieService.getAllOrByGenre(arr)
+        const {data} = await MovieService.getMovies(QueryParamsObj)
         return data
     }
 )
@@ -38,22 +37,13 @@ const getById = createAsyncThunk<IMovieDetails, { id: string }>(
     }
 )
 
-
-const getBySearchName = createAsyncThunk<IMovie[], { name: string, page: string }>(
-    'movieSlice/getBySearchName',
-    async ({name, page}) => {
-        const {data} = await MovieService.getByName(name, page)
-        return data
-    }
-)
-
 const movieSlice = createSlice({
     name: 'movieSlice',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(getAllOrByGenre.fulfilled, (state, action) => {
+            .addCase(getMovies.fulfilled, (state, action) => {
                 const {results, page, total_pages} = action.payload
 
                 state.results = results
@@ -73,6 +63,6 @@ const movieSlice = createSlice({
 });
 
 const {reducer: movieReducer} = movieSlice;
-const movieAction = {getById, getBySearchName, getAllOrByGenre}
+const movieAction = {getById, getMovies}
 
 export {movieReducer, movieAction}

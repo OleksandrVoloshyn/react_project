@@ -17,7 +17,9 @@ const GenreBadge: FC = () => {
         dispatch(genreAction.getAll())
     }, [dispatch])
 
-    const submit = (genresArray: any): void => {
+    //todo TS
+    // @ts-ignore
+    const submit = (genresArray): void => {
         let queryObj = Object.fromEntries(query.entries());
         queryObj.with_genres = genresArray.genresArray.toString()
         setQuery(queryObj)

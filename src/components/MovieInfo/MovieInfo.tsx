@@ -1,16 +1,16 @@
 import {FC, useEffect} from "react"
 import {useParams} from "react-router-dom";
 
-import css from './MovieInfo.module.css'
 import {useAppDispatch, useAppSelector} from "../../hook";
 import {movieAction} from "../../redux";
 import {img500} from "../../constants";
+import css from './MovieInfo.module.css'
 
-const MovieInfo: FC | any = () => {
+const MovieInfo: FC = () => {
     const {chosenMovie} = useAppSelector(({movieReducer}) => movieReducer);
     const dispatch = useAppDispatch();
     const {id} = useParams();
-
+    //todo Style
     useEffect(() => {
         if (id) {
             dispatch(movieAction.getById({id}))
@@ -19,8 +19,9 @@ const MovieInfo: FC | any = () => {
 
     return (
         <div>
-            {chosenMovie &&
-                <div className={css.wrap}>
+            {!chosenMovie ?
+                <div>Ooops don't have results. Click to logo and go to main page</div>
+                : <div className={css.wrap}>
                     <img src={img500 + chosenMovie.poster_path} alt={chosenMovie.title}/>
                     <div>
                         <div>adult: {chosenMovie.adult.toString()}</div>

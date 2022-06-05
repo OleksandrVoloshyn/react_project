@@ -15,8 +15,9 @@ const MoviesList: FC = () => {
         let queryObj = Object.fromEntries(query.entries());
 
         useEffect(() => {
-            dispatch(movieAction.getAllOrByGenre(queryObj))
-        }, [dispatch, queryObj.page, queryObj.with_genres, queryObj.search])
+            dispatch(movieAction.getMovies(queryObj))
+        }, [dispatch, queryObj.page, queryObj.with_genres, queryObj.query])
+        //    якщо в масив залежностей внесний queryObj відбувається зациклювання
 
         const prevBtn = (): void => {
             queryObj.page = (+queryObj.page - 1).toString()

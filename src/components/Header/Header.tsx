@@ -12,13 +12,15 @@ const Header: FC = () => {
     return (
         <div className={css.header}>
             <div><Link to={'/'} className={css.home}>Movie DB</Link></div>
+
             <div>
                 <input type="text" placeholder="movie's name"
                        onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}/>
                 <button>
-                    <Link to={`${urls.search}?search=${name}`} className={css.find_btn}>Find</Link>
+                    <Link to={`${urls.search}?query=${name}`} className={css.find_btn}>Find</Link>
                 </button>
             </div>
+
             <div className={css.header_right}>
                 <SwitchTheme/>
                 <UserInfo/>
