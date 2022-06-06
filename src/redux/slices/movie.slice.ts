@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 import {IMovie, IMovieDetails, IMovieQueryParams, IMovieResponse} from "../../interfaces";
-import {MovieService} from "../../services";
+import {movieService} from "../../services";
 
 interface IState {
     results: IMovie[],
@@ -21,10 +21,10 @@ const getMovies = createAsyncThunk<IMovieResponse, Partial<IMovieQueryParams>>(
     'movieSlice/getMovies',
     async (QueryParamsObj) => {
         if (QueryParamsObj.query) {
-            const {data} = await MovieService.getByName(QueryParamsObj)
+            const {data} = await movieService.getByName(QueryParamsObj)
             return data
         }
-        const {data} = await MovieService.getMovies(QueryParamsObj)
+        const {data} = await movieService.getMovies(QueryParamsObj)
         return data
     }
 )
@@ -32,7 +32,7 @@ const getMovies = createAsyncThunk<IMovieResponse, Partial<IMovieQueryParams>>(
 const getById = createAsyncThunk<IMovieDetails, { id: string }>(
     'movieSlice/getById',
     async ({id}) => {
-        const {data} = await MovieService.getById(id)
+        const {data} = await movieService.getById(id)
         return data
     }
 )

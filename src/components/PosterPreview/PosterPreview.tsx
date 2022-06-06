@@ -2,14 +2,15 @@ import {FC} from "react"
 import {Link} from "react-router-dom";
 
 import {IMovie} from "../../interfaces";
-import {img200} from "../../constants";
+import {alternativeUrlPhoto, img200} from "../../constants";
+import css from './PosterPreview.module.css'
 
 interface IProps {
     movie: IMovie
 }
 
 const PosterPreview: FC<IProps> = ({movie: {id, title, poster_path}}) => {
-    const posterUrl = img200 + poster_path
+    const posterUrl = poster_path ? img200 + poster_path : alternativeUrlPhoto
     const linkTo = `/movies/${id.toString()}`
 
     return (
@@ -20,7 +21,7 @@ const PosterPreview: FC<IProps> = ({movie: {id, title, poster_path}}) => {
             то я роблю додаткой запит на кожен фільм по Id, тому що так я отримаю на багато більше інформації з DB
             */}
             <Link to={linkTo}>
-                <img src={posterUrl} alt={title}/>
+                <img src={posterUrl} alt={title} className={css.w200}/>
             </Link>
         </div>
     );

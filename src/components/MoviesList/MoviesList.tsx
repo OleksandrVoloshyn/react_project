@@ -7,7 +7,7 @@ import {MoviesListCard} from "../MoviesListCard/MoviesListCard";
 import css from './MoviesList.module.css'
 
 const MoviesList: FC = () => {
-        const {results, prevPage, nextPage} = useAppSelector(state => state.movieReducer);
+        const {results, prevPage, nextPage} = useAppSelector(({movieReducer}) => movieReducer);
         const dispatch = useAppDispatch();
         const [query, setQuery] = useSearchParams({page: '1'});
         const queryObj = useMemo(() => Object.fromEntries(query.entries()), [query]);

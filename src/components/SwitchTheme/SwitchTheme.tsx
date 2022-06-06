@@ -9,8 +9,8 @@ const SwitchTheme: FC = () => {
 
     const toggleTheme = (): void => {
         if (localStorage.getItem('theme') === 'theme-dark') {
-            document.body.style.background = '#1c3248'
             document.body.style.color = 'white'
+            document.body.style.background = '#1c3248'
             setTheme('theme-light')
         } else {
             document.body.style.color = 'black'

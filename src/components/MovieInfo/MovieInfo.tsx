@@ -4,17 +4,18 @@ import StarRatings from "react-star-ratings";
 
 import {useAppDispatch, useAppSelector} from "../../hook";
 import {movieAction} from "../../redux";
-import {img500} from "../../constants";
+import {alternativeUrlPhoto, img500} from "../../constants";
 import css from './MovieInfo.module.css'
 
 const MovieInfo: FC = () => {
     const {chosenMovie} = useAppSelector(({movieReducer}) => movieReducer);
     const dispatch = useAppDispatch();
-    const {id} = useParams();
+    const {id} = useParams<string>();
+    const posterUrl = chosenMovie?.poster_path ? img500 + chosenMovie.poster_path : alternativeUrlPhoto
 
     let productionCompanyNames: string[] = []
     if (chosenMovie?.production_companies) {
-        chosenMovie?.production_companies.forEach(value => {
+        chosenMovie.production_companies.forEach(value => {
             productionCompanyNames.push(value.name)
         })
     }
@@ -28,9 +29,9 @@ const MovieInfo: FC = () => {
     return (
         <div>
             {!chosenMovie ?
-                <div>Ooops don't have results. Click to logo and go to main page</div>
+                <div>Ooops don't have results. Click on logo and go to the main page</div>
                 : <div className={css.wrap}>
-                    <img src={img500 + chosenMovie.poster_path} alt={chosenMovie.title}/>
+                    <img src={posterUrl} alt={chosenMovie.title} className={css.w500}/>
                     <div className={css.fields}>
                         <div>title: {chosenMovie.title}</div>
                         <div>original_title: {chosenMovie.original_title}</div>

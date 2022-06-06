@@ -7,7 +7,8 @@ const urls = {
     search: '/search/movie'
 }
 
-const img500 = 'https://image.tmdb.org/t/p/w500/'
-const img200 = 'https://image.tmdb.org/t/p/w200/'
+const img500: string = 'https://image.tmdb.org/t/p/w500/'
+const img200: string = 'https://image.tmdb.org/t/p/w200/'
+const alternativeUrlPhoto: string = 'https://www.moranyachts.com/sites/default/files/cannes-bs2017_3.jpg'
 
-export {baseURL, urls, img500, img200}
+export {baseURL, urls, img500, img200, alternativeUrlPhoto}

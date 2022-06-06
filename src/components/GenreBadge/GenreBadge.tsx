@@ -5,6 +5,7 @@ import {useForm} from "react-hook-form";
 import {useAppDispatch, useAppSelector} from "../../hook";
 import {genreAction} from "../../redux";
 import css from './GenreBadge.module.css'
+import {IMovieQueryParams} from "../../interfaces";
 
 type GenresForm = {
     genresArray: string[]
@@ -21,9 +22,11 @@ const GenreBadge: FC = () => {
     }, [dispatch])
 
     const submit = handleSubmit(({genresArray}) => {
-        let queryObj = Object.fromEntries(query.entries());
+        const queryObj = Object.fromEntries(query.entries());
         queryObj.with_genres = genresArray.toString()
+        queryObj.page = '1'
         setQuery(queryObj)
+        //    не використовую reset(), щоб було видно які жанки фільтрації використовую
     })
 
     return (
@@ -31,7 +34,7 @@ const GenreBadge: FC = () => {
             <form onSubmit={submit} className={css.filterForm}>
                 {allGenres.map(genre => <div key={genre.id}>
                     <label>{genre.name}
-                        <input type={"checkbox"} {...register('genresArray')} value={genre.id}/>
+                        <input type={"checkbox"} {...register('genresArray', {required: true})} value={genre.id}/>
                     </label>
                 </div>)}
                 <button>Filter</button>

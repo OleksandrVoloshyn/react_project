@@ -16,8 +16,8 @@ const Header: FC = () => {
             <div>
                 <input type="text" placeholder="movie's name"
                        onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}/>
-                <button>
-                    <Link to={`${urls.search}?query=${name}`} className={css.find_btn}>Find</Link>
+                <button disabled={!name}>
+                    {name ? <Link to={`${urls.search}?query=${name}`} className={css.find_btn}>Find</Link> : 'Find'}
                 </button>
             </div>
 
