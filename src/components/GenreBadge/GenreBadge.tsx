@@ -6,11 +6,6 @@ import {useAppDispatch, useAppSelector} from "../../hook";
 import {genreAction} from "../../redux";
 import css from './GenreBadge.module.css'
 
-
-interface IGenresArr {
-    genresArray: string[]
-}
-
 const GenreBadge: FC = () => {
     const {allGenres} = useAppSelector(({genreReducer}) => genreReducer);
     const dispatch = useAppDispatch();
@@ -21,8 +16,8 @@ const GenreBadge: FC = () => {
         dispatch(genreAction.getAll())
     }, [dispatch])
 
-    // todo TS
-    const submit: SubmitHandler<IGenresArr> = ({genresArray}): void => {
+    const submit: SubmitHandler<any> = ({genresArray}): void => {
+    // const submit: SubmitHandler<{ genresArray: string[] }> = ({genresArray}): void => {
         let queryObj = Object.fromEntries(query.entries());
         queryObj.with_genres = genresArray.toString()
         setQuery(queryObj)
@@ -30,7 +25,6 @@ const GenreBadge: FC = () => {
 
     return (
         <div>
-            {/*@ts-ignore*/}
             <form onSubmit={handleSubmit(submit)} className={css.filterForm}>
                 {allGenres.map(genre => <div key={genre.id}>
                     <label>{genre.name}
