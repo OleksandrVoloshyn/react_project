@@ -1,11 +1,15 @@
 import React, {FC, useEffect} from "react"
 import {useSearchParams} from "react-router-dom";
+import {SubmitHandler, useForm} from "react-hook-form";
 
 import {useAppDispatch, useAppSelector} from "../../hook";
 import {genreAction} from "../../redux";
 import css from './GenreBadge.module.css'
-import {useForm} from "react-hook-form";
 
+
+interface IGenresArr {
+    genresArray: string[]
+}
 
 const GenreBadge: FC = () => {
     const {allGenres} = useAppSelector(({genreReducer}) => genreReducer);
@@ -17,16 +21,16 @@ const GenreBadge: FC = () => {
         dispatch(genreAction.getAll())
     }, [dispatch])
 
-    //todo TS
-    // @ts-ignore
-    const submit = (genresArray): void => {
+    // todo TS
+    const submit: SubmitHandler<IGenresArr> = ({genresArray}): void => {
         let queryObj = Object.fromEntries(query.entries());
-        queryObj.with_genres = genresArray.genresArray.toString()
+        queryObj.with_genres = genresArray.toString()
         setQuery(queryObj)
     }
 
     return (
         <div>
+            {/*@ts-ignore*/}
             <form onSubmit={handleSubmit(submit)} className={css.filterForm}>
                 {allGenres.map(genre => <div key={genre.id}>
                     <label>{genre.name}

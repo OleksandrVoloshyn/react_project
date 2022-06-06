@@ -45,7 +45,7 @@ export interface IMovieDetails {
     runtime: number,
     spoken_languages: ISpokenLanguage[],
     status: string,
-    tagline: string,
+    tagline?: string,
     title: string,
     video: boolean,
     vote_average: number,

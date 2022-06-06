@@ -1,4 +1,4 @@
-import {FC, useEffect} from "react"
+import {FC, useEffect, useMemo} from "react"
 import {useSearchParams} from "react-router-dom";
 
 import {useAppDispatch, useAppSelector} from "../../hook";
@@ -10,14 +10,11 @@ const MoviesList: FC = () => {
         const {results, prevPage, nextPage} = useAppSelector(state => state.movieReducer);
         const dispatch = useAppDispatch();
         const [query, setQuery] = useSearchParams({page: '1'});
-
-        //todo try useMemo
-        let queryObj = Object.fromEntries(query.entries());
+        const queryObj = useMemo(() => Object.fromEntries(query.entries()), [query]);
 
         useEffect(() => {
             dispatch(movieAction.getMovies(queryObj))
-        }, [dispatch, queryObj.page, queryObj.with_genres, queryObj.query])
-        //    якщо в масив залежностей внесний queryObj відбувається зациклювання
+        }, [dispatch, queryObj])
 
         const prevBtn = (): void => {
             queryObj.page = (+queryObj.page - 1).toString()
