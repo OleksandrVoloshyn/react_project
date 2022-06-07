@@ -5,7 +5,6 @@ import {useForm} from "react-hook-form";
 import {useAppDispatch, useAppSelector} from "../../hook";
 import {genreAction} from "../../redux";
 import css from './GenreBadge.module.css'
-import {IMovieQueryParams} from "../../interfaces";
 
 type GenresForm = {
     genresArray: string[]
